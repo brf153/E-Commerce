@@ -6,7 +6,7 @@ app.use(express.json())
 
 //Route Imports
 const product = require("./routes/productRoute.js");
-app.post("/api/yo",async(req,res)=>{
+app.post("/api/v1",async(req,res)=>{
     // console.log(req);
     const body = req.body;
     console.log(req.body);
