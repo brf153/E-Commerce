@@ -1,28 +1,37 @@
-const Product= require("../models/productModel.js")
-
+const Product= require("../models/productModel.js");
+const ErrorHander = require("../utils/errorhander.js");
+const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+const ApiFeatures = require("../utils/apifeatures.js");
 
 
 
 //Create Product
-exports.createProduct= async(req,res,next)=>{
+exports.createProduct= catchAsyncErrors(async(req,res,next)=>{
     const product = await Product.create(req.body);
 
     return res.status(201).json({
         success:true,
         product
     })
-}
+});
 
 
 //Get All Product
 exports.getAllProducts = async(req,res)=>{
 
+    const resultPerPage = 5;
+    const productCount = await Product.countDocument();
+
+    const apiFeature=ApiFeatures(Product.find(),req.query)
+    .search()
+    .filter().pagination(resultPerPage);
     const products= await Product.find();
 
 
     return res.status(200).json({
         success: true,
-        products
+        products,
+        productCount,
     })
 }
 
@@ -32,10 +41,7 @@ exports.getProductDetails= async(req,res,next)=>{
     let product = await Product.findById(req.params.id);
 
     if(!product){
-        return res.status(500).json({
-            success: true,
-            message:"Product not found"
-        })
+        return next(new ErrorHander("Product not found", 404));
     }
     res.status(200).json({
         success:true,
