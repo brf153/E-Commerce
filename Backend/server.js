@@ -16,7 +16,7 @@ dotenv.config({path:"Backend/config/config.env"})
 //Connecting to database(isko yhi pe add krna wrna is process.env wali cheez milegi nhi)
 connectDatabase()
 
-app.listen(process.env.PORT,()=>{
+const server = app.listen(process.env.PORT,()=>{
     console.log(`Server is working on:http://localhost:${process.env.PORT}`)
 })
 
@@ -25,7 +25,7 @@ process.on("unhandledRejection",err=>{
     console.log(`Error: ${err.message}`);
     console.log(`Shutting down the server due to Unhandled Promise Rejection`);
 
-    Server.close(()=>{
+    server.close(()=>{
         process.exit(1);
     });
 });

@@ -1,10 +1,11 @@
 class ApiFeatures{
     constructor(query,queryStr){
-        this.query= query;
-        this.queryStr=queryStr;
+        this.query = query;
+        this.queryStr = queryStr;
     }
 
     search(){
+
         const keyword = this.queryStr.keyword ? 
         {
             name:{
@@ -14,27 +15,31 @@ class ApiFeatures{
         }:{};
 
         this.query= this.query.find({...keyword});
+        return this;
     }
 
-        filter(){
-            const queryCopy = {...this.queryStr}
+    filter(){
 
-            // Removing some fields for category
-            const removeFields = ["keyword","page","limit"];
+        const queryCopy = { ...this.queryStr };
 
-            removeFields.forEach(key=> delete queryCopy[key]);
+        // Removing some fields for category
+        const removeFields = ["keyword", "page", "limit"];
 
-            //Filter for Price and Rating
+        removeFields.forEach((key) => delete queryCopy[key]);
 
-            let queryStr = JSON.stringify(queryCopy);
-            queryStr=queryStr.replace(/\b(gt|gte|lt|lte)\b/g,key => `$${key}`);
-        
+        //Filter for Price and Rating
+
+        let queryStr = JSON.stringify(queryCopy);
+        queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (key) => `$${key}`);
+
         this.query = this.query.find(JSON.parse(queryStr));
+
         return this;
     }
 
     pagination(resultPerPage){
-        const currentPage= Number(this.queryStr.page) || 1; //50 - 10
+
+        const currentPage = Number(this.queryStr.page) || 1; //50 - 10
 
         const skip = resultPerPage * (currentPage - 1);
 
