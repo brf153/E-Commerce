@@ -10,6 +10,7 @@ app.use(cookieParser())
 //Route Imports
 const product = require("./routes/productRoute.js");
 const user = require("./routes/userRoute.js")
+const order = require("./routes/orderRoute.js")
 
 app.post("/api/v1",async(req,res)=>{
     // console.log(req);
@@ -22,6 +23,7 @@ app.post("/api/v1",async(req,res)=>{
 })
 app.use("/api/v1",product);
 app.use("/api/v1",user)
+app.use("/api/v1",order)
 
 //Middleware for Errors
 app.use(errorMiddleware);
