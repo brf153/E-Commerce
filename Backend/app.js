@@ -2,10 +2,7 @@ const express = require("express");
 const Product = require("./models/productModel.js");
 const app = express();
 const errorMiddleware = require("./middleware/error")
-<<<<<<< HEAD
-=======
 const cookieParser = require("cookie-parser")
->>>>>>> dev
 
 app.use(express.json())
 app.use(cookieParser())
