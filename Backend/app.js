@@ -14,6 +14,7 @@ app.use(cookieParser())
 const product = require("./routes/productRoute.js");
 const user = require("./routes/userRoute.js")
 const order = require("./routes/orderRoute.js")
+const order = require("./routes/orderRoute.js")
 
 app.post("/api/v1",async(req,res)=>{
     // console.log(req);
