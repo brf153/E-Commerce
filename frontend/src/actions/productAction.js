@@ -5,9 +5,7 @@ import { ALL_PRODUCT_SUCCESS,ALL_PRODUCT_FAIL,ALL_PRODUCT_REQUEST, CLEAR_ERRORS 
 
 export const getProduct = () => async(dispatch)=>{
     try{
-        dispatch({
-            type:ALL_PRODUCT_REQUEST
-        });
+        dispatch({type:ALL_PRODUCT_REQUEST});
 
         const {data} = await axios.get("/api/v1/products")
 
@@ -23,6 +21,26 @@ export const getProduct = () => async(dispatch)=>{
         })
     }
 }
+
+export const getProductDetails = () => async(dispatch)=>{
+    try{
+        dispatch({type:PRODUCT_DETAILS_REQUEST});
+
+        const {data} = await axios.get(`/api/v1/product/${id}`)
+
+        dispatch({
+            type:PRODUCT_DETAILS_SUCCESS,
+            payload:data.product
+        });
+    }
+    catch(error){
+        dispatch({
+        type: PRODUCT_DETAILS_FAIL,
+        payload: error.response.data.message
+        })
+    }
+}
+
 // export const allProductSuccess= createAction(ALL_PRODUCT_SUCCESS)
 // allProductSuccess(async()=>{return await axios.get("/api/v1/products")})
 

@@ -22,28 +22,36 @@
 
 // export default store
 
-import {combineReducers, configureStore, createSlice} from "@reduxjs/toolkit"
+import {combineReducers, configureStore} from "@reduxjs/toolkit"
 import thunk from 'redux-thunk';
-import {productsReducer} from "./reducers/productsReducer";
-import slice from "./slice"; 
 // import { legacy_createStore as createStore } from "@reduxjs/toolkit";
 // import { applyMiddleware } from "@reduxjs/toolkit";
-import { composeWithDevTools } from "redux-devtools-extension";
-import { legacy_createStore as createStore, applyMiddleware} from 'redux'
+// import { composeWithDevTools } from "redux-devtools-extension";
+// import { legacy_createStore as createStore, applyMiddleware, combineReducers} from 'redux'
+import productReducer from "./slice"
+import { productDetailsReducer } from "./reducers/productsReducer";
 
 let initial_State={}
 
 const reducer = combineReducers({
-    products: productsReducer
+    products: productReducer,
+    productDetails: productDetailsReducer
 })
 
-const middleware = [thunk]
+// const middleware = [thunk]
 
-const store = createStore(
+// const store = createStore(
+//     reducer,
+//     initial_State,
+//     composeWithDevTools(applyMiddleware(...middleware))
+// )
+
+const store = configureStore({
     reducer,
     initial_State,
-    composeWithDevTools(applyMiddleware(...middleware))
-)
+    middleware: (getDefaultMiddleware) =>getDefaultMiddleware().concat(thunk),
+    devTools:true
+})
 
 export default store
     

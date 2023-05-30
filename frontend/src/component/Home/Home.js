@@ -1,28 +1,38 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import {BsMouse} from "react-icons/bs"
 import "./Home.css"
-import Product from './Product'
+import Product from './ProductCard'
 import MetaData from '../layout/MetaData'
-import {getProduct} from "../../actions/productAction.js"
-import {useSelector, useDispatch} from "react-redux"
-
-const product ={
-  name:"HElpp",
-  image: "../../images/Appstore.png",
-  price:"$300",
-  _id:"abhishek"
-}
+import axios from 'axios'
+import Loader from '../layout/Loader/loader'
+import {useAlert} from "react-alert"
 
 const Home = () => {
-  const dispatch = useDispatch()
 
-  // const {loading,error,products}= useSelector(
-  //   (state)=>state.products
-  //   )
+  const alert = useAlert()
 
-  useEffect(()=>{
-    dispatch(getProduct())
-  },[dispatch])
+  const [data, setData] = useState([]);
+
+  let [isLoading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/v1/products'); // Replace with your API endpoint URL
+        setData(response.data.products); // Assuming the response contains an array of data
+        await new Promise((resolve)=>setTimeout(resolve,2000))
+        setLoading(isLoading=false)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if(isLoading){
+    return <div><Loader/></div>
+  }
   
   return (
     <Fragment>
@@ -40,7 +50,9 @@ const Home = () => {
         <div className='container' id='container'>
 
           
-             <Product product={product}/>
+             {data.map((e)=>{
+               return <Product product={e}/>
+            })}
             
           
         </div>

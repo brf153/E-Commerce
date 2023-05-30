@@ -18,7 +18,7 @@ const images = [
     {
         name:"Image 5",
         path:"/product_images/5phone.jfif"
-    },
+    }
 ]
 
 export default images

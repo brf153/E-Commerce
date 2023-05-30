@@ -1,0 +1,83 @@
+import React, { Fragment, useState } from 'react'
+import "./Header.css"
+import {SpeedDial, SpeedDialAction} from "@material-ui/lab"
+import Backdrop from "@material-ui/core/Backdrop";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import PersonIcon from "@material-ui/icons/Person";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import ListAltIcon from "@material-ui/icons/ListAlt";
+// import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+const UserOptions = ({user}) => {
+
+    // const [loggedIn, setLogin] = useState(true)
+
+    const history = useNavigate()
+
+    const [open,setOpen] = useState(false)
+
+    const logoutUser=async()=>{
+        await axios.get('/api/v1/logout')
+        window.location.reload()
+        console.log("Logged Out Successfully")
+    }
+
+    console.log(user)
+
+    const options=[
+        {icon:<ListAltIcon/>, name:"Orders", func: orders},
+        {icon:<PersonIcon/>, name:"Profile", func: account},
+        {icon:<ExitToAppIcon/>, name:"LogOut", func: logoutUser}
+    ]
+
+    if(user.role==="admin"){
+        options.unshift({icon:<DashboardIcon/>, name:"Dashboard", func: dashboard},)
+    }
+
+    function dashboard(){
+        history("/dashboard")
+    }
+
+    function orders(){
+        history("/orders")
+    }
+
+    function account(){
+        history("/account")
+    }
+
+  return (
+    <Fragment>
+        <Backdrop open={open} style={{ zIndex: "10" }} />
+        <SpeedDial 
+        ariaLabel='SpeedDial tooltip example'
+        onClose={()=>setOpen(false)}
+        onOpen={()=>setOpen(true)}
+        style={{zIndex:"11"}}
+        open={open}
+        direction='down'
+        className="speedDial"
+        icon={<img
+            className='speedDialIcon'
+            src={user.avatar.url ? user.avatar.url : "/Profile.png"}
+            alt='Profile'
+            />}
+        >
+
+           {
+            options.map((e)=>{
+
+                return <SpeedDialAction icon={e.icon} tooltipTitle={e.name} onClick={e.func}/>
+            })   
+
+           } 
+
+        </SpeedDial>
+
+    </Fragment>
+  )
+}
+
+export default UserOptions
