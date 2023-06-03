@@ -79,7 +79,7 @@ const LoginSignUp = ({authentication}) => {
 
             if(success){
                 console.log('Registration Successful')
-                history("/signup")
+                history("/account")
             }
             else{
                 console.log("Login Failed", message)
@@ -98,6 +98,7 @@ const LoginSignUp = ({authentication}) => {
 
             reader.onload=()=>{
                 if(reader.readyState===2){
+                    console.log(reader)
                     setAvatarPreview(reader.result);
                     setAvatar(reader.result)
                 }
@@ -109,11 +110,14 @@ const LoginSignUp = ({authentication}) => {
         }
     }
 
-    useEffect((e)=>{
+    const redirect = window.location.href ? window.location.href.split("=")[1] :"/account"
+    console.log(redirect)
+
+    useEffect(()=>{
         if(authentication){
-            history("/")
+            history(`/${redirect}`)
         }
-    },[authentication,history])
+    },[authentication,history,redirect])
 
     const switchTabs = (e,tab)=>{
         if(tab==="login"){

@@ -4,41 +4,38 @@ import MetaData from "../layout/MetaData";
 // import Loader from "../layout/Loader/Loader";
 import { Link, useNavigate } from "react-router-dom";
 import "./Profile.css";
-import axios from "axios";
+import Loader from "../layout/Loader/loader";
+// import axios from "axios";
 
 const Profile = () => {
 
-  const history = useNavigate() 
+//   const history = useNavigate() 
   
-  const [authentication, setAuthentication] = useState(false)
-  const [user, setUser] = useState([])
+//   const [authentication, setAuthentication] = useState(false)
+//   const [user, setUser] = useState([])
     
 //   const { user, authentication } = useSelector((state) => state.user);
 
-  useEffect(() => {
-    const checkLogin=async()=>{
-        try{
-          const response = await axios.get("/api/v1/me")
-          console.log(response.data)
-          const {success} = response.data
-          setUser(response.data.user) 
-          console.log(user)
-          if(success){
-            setAuthentication(true)
-          }
-          else{
-              history("/login");
-            }
-              
-        }
-        catch(error){
-          console.log(error)
-        }
-    }
-    checkLogin()
-  }, [history, authentication]);
+//   useEffect(async() => {
+//       if(!authentication){
+//         history("/login");
+//       }   
+//   }, [history]);
+const user = JSON.parse(localStorage.getItem("user"))
+console.log(user)
+// const [isLoading, setLoading] = useState(true)
+//   useEffect(()=>{
+//     if(isLoading){
+//       setLoading(false)
+//       window.location.reload()
+//     }
+//   },[isLoading])
 
-  console.log(user)
+
+  // console.log(user)
+  // if(isLoading){
+  //   return <Loader/>
+  // }
   return (
         <Fragment>
           <MetaData title={`${user.name}'s Profile`} />

@@ -80,8 +80,9 @@ exports.forgotPassword = catchAsyncErrors(async(req,res,next)=>{
 
     await user.save({validateBeforeSave:false});
 
-    const resetPasswordUrl = `${req.protocol}://${req.get("host")}/api/v1/password/reset/${resetToken}`
+    const resetPasswordUrl = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`
     const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\n If you have not requested this email then please ignore it`;
+    // localStorage.setItem("token",JSON.stringify(resetToken))
     try{
         await sendEmail({
             email:user.email,
@@ -90,7 +91,7 @@ exports.forgotPassword = catchAsyncErrors(async(req,res,next)=>{
         })
         res.status(200).json({
             success:true,
-            message: `Email sent to ${user.email} successfully`
+            message: `Email sent to ${user.email} successfully`,
         })
     }catch(error){
         user.resetPasswordToken = undefined;
@@ -99,6 +100,10 @@ exports.forgotPassword = catchAsyncErrors(async(req,res,next)=>{
         await user.save({validateBeforeSave:false});
         return next(new ErrorHander(error.message,500))
     }
+    // res.status(200).json({
+    //     success:true,
+    //     user
+    // })
 })
 
 //Reset Password
@@ -128,7 +133,10 @@ exports.resetPassword = catchAsyncErrors(async(req,res,next)=>{
         user.resetPasswordExpire = undefined;
 
         await user.save();
-
+        res.status(200).json({
+            success:true,
+            user
+        })
         sendToken(user,200, res)
 })
 
@@ -155,7 +163,10 @@ exports.updatePassword = catchAsyncErrors(async(req,res,next)=>{
     user.password = req.body.newPassword;
 
     await user.save()
-
+    res.status(200).json({
+        success:true,
+        user
+    })
     sendToken(user,200,res)
 })
 
@@ -168,6 +179,25 @@ exports.updateProfile = catchAsyncErrors(async (req,res,next)=>{
     }
 
     //We will add cloudinary later
+    if(req.body.avatar!==""){
+        const user = await User.findById(req.user.id)
+    
+        const imageId = user.avatar.public_id
+
+        await cloudinary.v2.uploader.destroy(imageId)
+
+        const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar,{
+            folder:"avatars",
+            width:150,
+            crop:"scale"
+        })
+
+        newUserData.avatar={
+            public_id: myCloud.public_id,
+            url: myCloud.secure_url
+        }
+    }
+
     const user = await User.findByIdAndUpdate(req.user.id,newUserData,{
         new:true,
         runValidators:true,
@@ -175,7 +205,8 @@ exports.updateProfile = catchAsyncErrors(async (req,res,next)=>{
     })
 
     res.status(200).json({
-        success:true
+        success:true,
+        user
     })
 })
 

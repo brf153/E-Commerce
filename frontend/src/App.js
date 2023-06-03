@@ -12,6 +12,20 @@ import Search from "./component/Product/Search.js"
 import LoginSignUp from './component/User/loginSignUp';
 import UserOptions from "./component/layout/Header/UserOptions.js"
 import Profile from './component/User/Profile';
+// import ProtectedRoute from './component/Route/ProtectedRoute';
+import UpdateProfile from "./component/User/UpdateProfile.js"
+import UpdatePassword from './component/User/UpdatePassword';
+import ResetPassword from './component/User/ResetPassword';
+import ForgotPassword from './component/User/ForgotPassword';
+import Cart from './component/Cart/Cart';
+import Shipping from "./component/Cart/Shipping.js"
+import ConfirmOrder from './component/Cart/ConfirmOrder';
+import Payment from './component/Cart/Payment';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import OrderSuccess from './component/Cart/OrderSuccess';
+import MyOrders from './component/Order/MyOrders';
+import OrderDetails from './component/Order/OrderDetails';
 
 function App() {
 
@@ -42,19 +56,29 @@ function App() {
   // console.log(data)
   // console.log(dataId)
 
-  React.useEffect(()=>{
+  const [stripeApiKey, setStripeApiKey] = useState("")
+
+  async function getStripeApiKey(){
+    const {data} = await axios.get("/api/v1/stripeapikey")
+
+    setStripeApiKey(data.stripeApiKey)
+  }
+
+  useEffect(()=>{
     WebFont.load({
       google:{
         families:["Roboto","Droid Sans","Chilanka"]
       }
     })
+
     const checkLogin=async()=>{
       try{
         const response = await axios.get("/api/v1/me")
-        console.log(response.data)
+        // console.log(response.data)
         const {success} = response.data
         setUser(response.data.user) 
-        console.log(user)
+        const user = response.data.user
+        localStorage.setItem("user", JSON.stringify(user))
         if(success){
           setAuthentication(true)
         }
@@ -64,24 +88,44 @@ function App() {
       }
     }
     checkLogin()
+    getStripeApiKey()
   },[])
 
-  console.log(user)
+  // console.log(user)
 
   return (
     <Router>
-      <Header/>
+      <Header />
       {isAuthenticated && <UserOptions user={user} />}
       <Routes>
-      <Route exact path="/" element={<Home/>}/>
-      <Route exact path='/product/:id' element={<ProductDetails />} />
-      <Route exact path='/products' element={<Products data={data}/>} />
-      <Route path='/products/:keyword' element={<Products />} />
-      <Route exact path='/search' element={<Search />} />
-      <Route exact path='/account' element={<Profile />}/>
-      <Route exact path='/login' element={<LoginSignUp authentication={isAuthenticated}/>} />
+        <Route exact path="/" element={<Home />} />
+        <Route exact path='/product/:id' element={<ProductDetails />} />
+        <Route exact path='/products' element={<Products data={data} />} />
+        <Route path='/products/:keyword' element={<Products />} />
+        <Route exact path='/search' element={<Search />} />
+        { user && ( <Route exact path='/account' element={<Profile user={user} authentication={isAuthenticated} />} /> ) }
+        <Route exact path="/me/update" element={<UpdateProfile authentication={isAuthenticated} />} />
+        <Route exact path='/login' element={<LoginSignUp authentication={isAuthenticated} />} />
+        <Route exact path='/password/update' element={<UpdatePassword/>} />
+        <Route exact path='/password/forgot' element={<ForgotPassword/>} />
+        <Route exact path="/password/reset/:token" element={<ResetPassword/>}/>
+        <Route exact path='/cart' element={<Cart/>} />
+        <Route exact path='/shipping' element={<Shipping/>} />
+        <Route exact path='/order/confirm' element={<ConfirmOrder/>} />
+        {stripeApiKey &&
+        <Route exact path='/process/payment' element={
+
+        <Elements stripe={loadStripe(stripeApiKey)}>
+        <Payment/>
+        </Elements>
+        }>
+        </Route>
+        }
+        <Route exact path='/success' element={<OrderSuccess/>} />
+        <Route exact path='/orders' element={<MyOrders/>} />
+        <Route exact path='/order/:id' element={<OrderDetails/>} />
       </Routes>
-      <Footer/>  
+      <Footer />
     </Router>
   );
   }

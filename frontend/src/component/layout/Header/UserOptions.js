@@ -6,13 +6,16 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import PersonIcon from "@material-ui/icons/Person";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import ListAltIcon from "@material-ui/icons/ListAlt";
-// import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const UserOptions = ({user}) => {
+const UserOptions = () => {
 
     // const [loggedIn, setLogin] = useState(true)
+    const cartItems = JSON.parse(localStorage.getItem("cartProduct"))
+
+    const user = JSON.parse(localStorage.getItem("user"))
 
     const history = useNavigate()
 
@@ -24,11 +27,12 @@ const UserOptions = ({user}) => {
         console.log("Logged Out Successfully")
     }
 
-    console.log(user)
+    // console.log(user)
 
     const options=[
         {icon:<ListAltIcon/>, name:"Orders", func: orders},
         {icon:<PersonIcon/>, name:"Profile", func: account},
+        {icon:<ShoppingCartIcon style={{color: cartItems.length>0 ? "tomato":"unset"}}/>, name:`Cart(${cartItems.length})`, func: cart},
         {icon:<ExitToAppIcon/>, name:"LogOut", func: logoutUser}
     ]
 
@@ -42,6 +46,10 @@ const UserOptions = ({user}) => {
 
     function orders(){
         history("/orders")
+    }
+
+    function cart(){
+        history("/cart")
     }
 
     function account(){
@@ -69,7 +77,7 @@ const UserOptions = ({user}) => {
            {
             options.map((e)=>{
 
-                return <SpeedDialAction icon={e.icon} tooltipTitle={e.name} onClick={e.func}/>
+                return <SpeedDialAction icon={e.icon} tooltipTitle={e.name} onClick={e.func} tooltipOpen={window.innerWidth<=600 ? true:false}/>
             })   
 
            } 
