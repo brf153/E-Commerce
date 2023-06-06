@@ -47,5 +47,14 @@ app.use(express.static(path.join(__dirname, "../frontend/build")))
 //Middleware for Errors
 app.use(errorMiddleware);
 
+// "proxy": "http://192.168.56.1:4000",
+
+    const path = require("path")
+    app.get('*',(req,res)=>{
+        res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"))
+    })
+    app.use(express.static(path.join(__dirname, "../frontend/build")))
+    
+
 
 module.exports = app;
