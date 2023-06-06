@@ -38,18 +38,17 @@ app.use("/api/v1",user)
 app.use("/api/v1",order)
 app.use("/api/v1",payment)
 app.use("/api/v1/",cart)
-app.use(express.static(path.join(__dirname, "../frontend/build")))
+// app.use(express.static(path.join(__dirname, "../frontend/build")))
 
-app.get("*",(req,res)=>{
-    res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"))
-})
+// app.get("*",(req,res)=>{
+//     res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"))
+// })
 
 //Middleware for Errors
 app.use(errorMiddleware);
 
 // "proxy": "http://192.168.56.1:4000",
 
-    const path = require("path")
     app.get('*',(req,res)=>{
         res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"))
     })
