@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import "./Header.css"
 import {SpeedDial, SpeedDialAction} from "@material-ui/lab"
 import Backdrop from "@material-ui/core/Backdrop";
@@ -14,7 +14,6 @@ const UserOptions = () => {
 
     // const [loggedIn, setLogin] = useState(true)
     const [cartItems, setCartItems] = useState([])
-    // setCartItems(cartItems.push(JSON.parse(sessionStorage.getItem("cartProduct"))))
 
     const user = JSON.parse(localStorage.getItem("user"))
 
@@ -27,6 +26,20 @@ const UserOptions = () => {
         window.location.reload()
         console.log("Logged Out Successfully")
     }
+
+    useEffect(()=>{
+        fetchData=async()=>{
+            try{
+                const response= await axios.get("/api/v1/getcart").then((e)=>console.log(e)).catch((err)=>console.log(err))
+                setCartItems(response.data.orders)
+                console.log(response.data.orders)
+            }
+            catch(error){
+                console.log(error)
+            }
+        }
+        fetchData()
+    },[])
 
     console.log(cartItems)
 
