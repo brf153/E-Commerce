@@ -35,8 +35,8 @@ const ProductDetails = () => {
       try {
         window.scrollTo(0,0);
         const response = await axios.get(`/api/v1/product/${id}`);
-        const product = response.data.product
-        console.log(response.data.product.images[0].url)
+        // sresponse.data.product
+        console.log(response.data.product)
         getProduct(response.data.product.images[0].url);
         setProduct(response.data.product)
         await new Promise((resolve)=>setTimeout(resolve,1000))
@@ -80,15 +80,20 @@ const options = {
     isHalf: true
 }
 
-const addCart=()=>{
+const addCart=async()=>{
     const itemExist = cartItems.find((e)=>e.product===product)
     if(itemExist){
         history("/cart")
         return
     } 
     else{
-        cartItems.push(product)
-        localStorage.setItem("cartProduct",JSON.stringify(cartItems))
+        // cartItems.push(product)
+        const config={
+          headers:{
+              "Content-Type":"application/json"
+          }
+      }
+        await axios.post("/api/v1/addcart",product,config )
         history("/cart")
         
     }

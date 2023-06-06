@@ -13,7 +13,8 @@ import axios from 'axios';
 const UserOptions = () => {
 
     // const [loggedIn, setLogin] = useState(true)
-    const cartItems = JSON.parse(localStorage.getItem("cartProduct"))
+    const [cartItems, setCartItems] = useState([])
+    // setCartItems(cartItems.push(JSON.parse(sessionStorage.getItem("cartProduct"))))
 
     const user = JSON.parse(localStorage.getItem("user"))
 
@@ -27,7 +28,7 @@ const UserOptions = () => {
         console.log("Logged Out Successfully")
     }
 
-    // console.log(user)
+    console.log(cartItems)
 
     const options=[
         {icon:<ListAltIcon/>, name:"Orders", func: orders},

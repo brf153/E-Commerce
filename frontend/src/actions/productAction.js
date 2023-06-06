@@ -1,6 +1,7 @@
+/* eslint-disable */
 import axios from "axios"
 
-import { ALL_PRODUCT_SUCCESS,ALL_PRODUCT_FAIL,ALL_PRODUCT_REQUEST, CLEAR_ERRORS } from "../constants/productConstants"
+import { ALL_PRODUCT_SUCCESS,ALL_PRODUCT_FAIL,ALL_PRODUCT_REQUEST, CLEAR_ERRORS, PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_SUCCESS, PRODUCT_DETAILS_FAIL } from "../constants/productConstants"
 // import { createAction } from "@reduxjs/toolkit"
 
 export const getProduct = () => async(dispatch)=>{

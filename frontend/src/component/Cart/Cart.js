@@ -12,14 +12,28 @@ const Cart = () => {
     //   const dispatch = useDispatch();
     //   const { cartItems } = useSelector((state) => state.cart);
     const history = useNavigate()
-    //   const productID = JSON.parse(localStorage.getItem("productID"))
+      const productID = JSON.parse(localStorage.getItem("productID"))
 
 
 
-    const cartProduct = JSON.parse(localStorage.getItem("cartProduct"))
-    const [cartItems, setCartItems] = useState(cartProduct)
+    // const cartProduct = JSON.parse(sessionStorage.getItem("cartProduct"))
+    const [cartItems, setCartItems] = useState([])
     const [quantity, setQuantity] = useState(1)
-    console.log(cartItems)
+    // console.log(cartItems)
+
+    useEffect(()=>{
+        const fetchData=async()=>{
+            try{
+                const response= await axios.get("/api/v1/getcart")
+                setCartItems(response.data.orders)
+                console.log(response.data.orders)
+            }
+            catch(error){
+                console.log(error.message)
+            }
+        }
+        fetchData()
+    },[])
 
     //   const [cartItems,setItem] = useState([])
 
@@ -58,7 +72,7 @@ const Cart = () => {
         setQuantity(newQty)
     };
 
-    const deleteCartItems = (id) => {
+    const deleteCartItems = async(id) => {
         const itemIndex = cartItems.findIndex((e) => e._id === id)
         console.log(itemIndex)
         // findItem
@@ -68,6 +82,7 @@ const Cart = () => {
             console.log(updatedCartItem)
             setCartItems(updatedCartItem)
             localStorage.setItem("cartProduct",JSON.stringify(updatedCartItem))
+            await axios.delete("/api/v1//deleteitem")
         }
     };
 

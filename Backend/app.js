@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser")
 const bodyParser = require("body-parser")
 const fileUpload = require("express-fileupload")
 const dotenv = require("dotenv");
+const path = require("path")
 
 //Config
 dotenv.config({path:"Backend/config/config.env"})
@@ -21,6 +22,7 @@ const product = require("./routes/productRoute.js");
 const user = require("./routes/userRoute.js")
 const order = require("./routes/orderRoute.js")
 const payment = require("./routes/paymentRoute.js")
+const cart = require("./routes/cartRoutes.js")
 
 app.post("/api/v1",async(req,res)=>{
     // console.log(req);
@@ -35,6 +37,12 @@ app.use("/api/v1",product);
 app.use("/api/v1",user)
 app.use("/api/v1",order)
 app.use("/api/v1",payment)
+app.use("/api/v1/",cart)
+app.use(express.static(path.join(__dirname, "../frontend/build")))
+
+// app.get("*",(req,res)=>{
+//     res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"))
+// })
 
 //Middleware for Errors
 app.use(errorMiddleware);

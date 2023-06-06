@@ -2,7 +2,7 @@ import './App.css';
 import React, { useEffect, useState } from 'react';
 import Header from "./component/layout/Header/Header.js"
 import Footer from './component/layout/Footer/Footer';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, HashRouter } from 'react-router-dom';
 import WebFont from 'webfontloader';
 import Home from './component/Home/Home.js';
 import ProductDetails from './component/Product/ProductDetails.js'
@@ -26,6 +26,18 @@ import { loadStripe } from '@stripe/stripe-js';
 import OrderSuccess from './component/Cart/OrderSuccess';
 import MyOrders from './component/Order/MyOrders';
 import OrderDetails from './component/Order/OrderDetails';
+import Dashboard from "./component/Admin/Dashboard"
+import ProductList from './component/Admin/ProductList';
+import NewProduct from './component/Admin/NewProduct';
+import UpdateProduct from './component/Admin/UpdateProduct';
+import OrderList from './component/Admin/OrderList';
+import ProcessOrder from './component/Admin/ProcessOrder';
+import UsersList from './component/Admin/UsersList';
+import UpdateUser from './component/Admin/UpdateUser';
+import ProductReviews from './component/Admin/ProductReviews';
+import Contact from './component/layout/Contact/Contact';
+import About from './component/layout/About/About';
+import NotFound from './component/layout/Not Found/NotFound';
 
 function App() {
 
@@ -124,6 +136,18 @@ function App() {
         <Route exact path='/success' element={<OrderSuccess/>} />
         <Route exact path='/orders' element={<MyOrders/>} />
         <Route exact path='/order/:id' element={<OrderDetails/>} />
+        <Route exact path='/admin/dashboard' element={<Dashboard/>} />
+        <Route exact path='/admin/products' element={<ProductList/>} />
+        <Route exact path='/admin/product' element={<NewProduct/>} />
+        <Route exact path="/admin/product/:id" isAdmin={true} element={<UpdateProduct/>} />
+        <Route exact path='/admin/orders' element={<OrderList/>} />
+        <Route exact path='/admin/order/:id' element={<ProcessOrder/>} />
+        <Route exact path="/admin/users" element={<UsersList/>} />
+        <Route exact path='/admin/user/:id' element={<UpdateUser/>} />
+        <Route exact path='/admin/reviews' element={<ProductReviews/>} />
+        <Route exact path='/contact' element={<Contact/>} />
+        <Route exact path='/about' element={<About/>} />
+        <Route path='*' element={ <NotFound/>}/>
       </Routes>
       <Footer />
     </Router>

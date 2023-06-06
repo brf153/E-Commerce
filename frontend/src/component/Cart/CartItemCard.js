@@ -1,8 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import "./CardItemCard.css"
+import Logo from "./../../images/Profile.png"
 
 const CartItemCard = ({item,deleteCartItems}) => {
+  // console.log(item.images[0].url)
     const handleClick=()=>{
         deleteCartItems(item._id)
     }
