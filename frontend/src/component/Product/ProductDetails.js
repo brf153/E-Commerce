@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import Carousel from "react-material-ui-carousel"
 import "./ProductDetails.css"
-import axios from 'axios';
+import axios from "../../axios";
 import { useNavigate, useParams } from 'react-router-dom';
 import ReactStars from "react-rating-stars-component"
 import ReviewCard from "./ReviewCard.js"

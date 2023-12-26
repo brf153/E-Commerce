@@ -16,7 +16,7 @@ import Star from "@material-ui/icons/Star";
 import SideBar from "./Sidebar";
 // import { DELETE_REVIEW_RESET } from "../../constants/productConstants";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../../axios";
 
 const ProductReviews = () => {
     const history = useNavigate()

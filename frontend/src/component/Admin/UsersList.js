@@ -9,7 +9,7 @@ import MetaData from "../layout/MetaData";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SideBar from "./Sidebar";
-import axios from "axios";
+import axios from "../../axios";
 // import { getAllUsers, clearErrors, deleteUser } from "../../actions/userAction";
 // import { DELETE_USER_RESET } from "../../constants/userConstants";
 

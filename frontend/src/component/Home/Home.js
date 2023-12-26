@@ -3,7 +3,7 @@ import {BsMouse} from "react-icons/bs"
 import "./Home.css"
 import Product from './ProductCard'
 import MetaData from '../layout/MetaData'
-import axios from 'axios'
+import axios from '../../axios'
 import Loader from '../layout/Loader/loader'
 import {useAlert} from "react-alert"
 

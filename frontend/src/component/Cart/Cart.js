@@ -6,7 +6,7 @@ import CartItemCard from "./CartItemCard";
 import { Typography } from "@material-ui/core";
 import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../../axios";
 
 const Cart = () => {
     //   const dispatch = useDispatch();

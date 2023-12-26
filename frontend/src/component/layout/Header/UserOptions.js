@@ -8,7 +8,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../../axios';
 
 const UserOptions = () => {
 
@@ -28,7 +28,7 @@ const UserOptions = () => {
     }
 
     useEffect(()=>{
-        fetchData=async()=>{
+        const fetchData=async()=>{
             try{
                 const response= await axios.get("/api/v1/getcart").then((e)=>console.log(e)).catch((err)=>console.log(err))
                 setCartItems(response.data.orders)

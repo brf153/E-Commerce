@@ -8,7 +8,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import SideBar from "./Sidebar";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import axios from "../../axios";
 // import { UPDATE_USER_RESET } from "../../constants/userConstants";
 // import {
 //   getUserDetails,

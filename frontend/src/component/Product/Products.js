@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react'
 import Loader from '../layout/Loader/loader'
 import ProductCard from '../Home/ProductCard'
 import "./Products.css" 
-import axios from 'axios'
+import axios from '../../axios'
 import { useLocation } from 'react-router-dom'
 import Pagination from 'react-js-pagination';
 import Slider from "@material-ui/core/Slider"

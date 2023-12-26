@@ -10,7 +10,7 @@ import LockOpenIcon from "@material-ui/icons/LockOpen";
 import LockIcon from "@material-ui/icons/Lock";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../../axios";
 
 const UpdatePassword = () => {
 //   const dispatch = useDispatch();

@@ -4,7 +4,7 @@ import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import FaceIcon from "@material-ui/icons/Face";
 import MetaData from "../layout/MetaData";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../../axios";
 
 const UpdateProfile = () => {
 //   console.log(user)

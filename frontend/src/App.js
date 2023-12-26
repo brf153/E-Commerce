@@ -2,11 +2,11 @@ import './App.css';
 import React, { useEffect, useState } from 'react';
 import Header from "./component/layout/Header/Header.js"
 import Footer from './component/layout/Footer/Footer';
-import { BrowserRouter as Router, Route, Routes, HashRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import WebFont from 'webfontloader';
 import Home from './component/Home/Home.js';
 import ProductDetails from './component/Product/ProductDetails.js'
-import axios from 'axios';
+import axios from './axios.js';
 import Products from "./component/Product/Products.js"
 import Search from "./component/Product/Search.js"
 import LoginSignUp from './component/User/loginSignUp';
@@ -85,18 +85,20 @@ function App() {
 
     const checkLogin=async()=>{
       try{
-        const response = await axios.get("/api/v1/me")
-        // console.log(response.data)
-        const {success} = response.data
-        setUser(response.data.user) 
-        const user = response.data.user
-        localStorage.setItem("user", JSON.stringify(user))
-        if(success){
+        await axios.get("/api/v1/me").then((e)=>{
+          console.log("dateResponse ",e)
+          setUser(e.data.user) 
+          const user = e.data.user
+          localStorage.setItem("user", JSON.stringify(user))
           setAuthentication(true)
-        }
+        }).catch((err)=>{
+          console.log("Checking Error")
+          console.log("errorHere",err)
+        }) 
+        
       }
       catch(error){
-        console.log(error.message)
+        console.log("errorMessage",error.message)
       }
     }
     checkLogin()
@@ -117,7 +119,7 @@ function App() {
         <Route exact path='/search' element={<Search />} />
         { user && ( <Route exact path='/account' element={<Profile user={user} authentication={isAuthenticated} />} /> ) }
         <Route exact path="/me/update" element={<UpdateProfile authentication={isAuthenticated} />} />
-        <Route exact path='/login' element={<LoginSignUp authentication={isAuthenticated} />} />
+        <Route exact path='/login' element={<LoginSignUp />} />
         <Route exact path='/password/update' element={<UpdatePassword/>} />
         <Route exact path='/password/forgot' element={<ForgotPassword/>} />
         <Route exact path="/password/reset/:token" element={<ResetPassword/>}/>

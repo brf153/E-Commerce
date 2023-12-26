@@ -4,7 +4,7 @@ import "./orderDetails.css";
 import MetaData from "../layout/MetaData";
 import { Link, useParams } from "react-router-dom";
 import { Typography } from "@material-ui/core";
-import axios from "axios";
+import axios from "../../axios";
 // import { getOrderDetails, clearErrors } from "../../actions/orderAction";
 // import Loader from "../layout/Loader/Loader";
 // import { useAlert } from "react-alert";

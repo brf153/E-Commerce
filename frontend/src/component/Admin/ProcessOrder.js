@@ -15,7 +15,7 @@ import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import { Button } from "@material-ui/core";
 // import { UPDATE_ORDER_RESET } from "../../constants/orderConstants";
 import "./processOrder.css";
-import axios from "axios";
+import axios from "../../axios";
 
 const ProcessOrder = () => {
     // const history = useNavigate()

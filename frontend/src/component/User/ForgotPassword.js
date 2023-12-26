@@ -6,7 +6,7 @@ import "./ForgotPassword.css";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 // import { useAlert } from "react-alert";
 import MetaData from "../layout/MetaData";
-import axios from "axios";
+import axios from "../../axios";
 
 const ForgotPassword = () => {
   // const dispatch = useDispatch();

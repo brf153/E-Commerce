@@ -5,9 +5,9 @@ import LockOpenIcon from "@material-ui/icons/LockOpen";
 import FaceIcon from "@material-ui/icons/Face";
 import "./loginSignUp.css"
 import faceLogo from "../../images/Profile.png"
-import axios from 'axios';
+import axios from '../../axios';
 
-const LoginSignUp = ({authentication}) => {
+const LoginSignUp = () => {
 
     const history = useNavigate()
 
@@ -17,6 +17,7 @@ const LoginSignUp = ({authentication}) => {
 
     const [loginEmail,setLoginEmail] = useState("")
     const [loginPassword, setLoginPassword] = useState("")
+    const [authentication,setAuthentication] = useState(false)
 
     const [user,setUser] = useState({
         name:"",
@@ -111,13 +112,33 @@ const LoginSignUp = ({authentication}) => {
     }
 
     const redirect = window.location.href ? window.location.href.split("=")[1] :"/account"
-    console.log(redirect)
+    console.log("checkRedirect",redirect)
 
     useEffect(()=>{
+        console.log("auth", authentication)
+        const checkLogin=async()=>{
+            try{
+              await axios.get("/api/v1/me").then((e)=>{
+                console.log("dateResponse ",e)
+                setUser(e.data.user) 
+                const user = e.data.user
+                localStorage.setItem("user", JSON.stringify(user))
+                setAuthentication(true)
+              }).catch((err)=>{
+                console.log("Checking Error in loginSignUp.js")
+                console.log("errorHere",err)
+              }) 
+              
+            }
+            catch(error){
+              console.log("errorMessage",error.message)
+            }
+          }
+          checkLogin()
         if(authentication){
             history(`/${redirect}`)
         }
-    },[authentication,history,redirect])
+    },[])
 
     const switchTabs = (e,tab)=>{
         if(tab==="login"){

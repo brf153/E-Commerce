@@ -8,7 +8,7 @@ import MetaData from "../layout/MetaData";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import LockIcon from "@material-ui/icons/Lock";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import axios from "../../axios";
 
 const ResetPassword = () => {
 //   const dispatch = useDispatch();

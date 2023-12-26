@@ -3,7 +3,7 @@ import Sidebar from "./Sidebar.js";
 import "./dashboard.css";
 import { Doughnut, Line } from "react-chartjs-2";
 import MetaData from "../layout/MetaData";
-import axios from "axios";
+import axios from "../../axios.js";
 import { Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 // import {
