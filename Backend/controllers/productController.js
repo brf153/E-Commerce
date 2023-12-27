@@ -2,13 +2,14 @@ const Product = require("../models/productModel.js");
 const ErrorHander = require("../utils/errorhander.js");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ApiFeatures = require("../utils/apifeatures.js");
-
+const cloudinary = require("cloudinary")
 
 
 // Create Product -- Admin
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
     let images = [];
   
+    console.log("req.body.images", req.body)
     if (typeof req.body.images === "string") {
       images.push(req.body.images);
     } else {

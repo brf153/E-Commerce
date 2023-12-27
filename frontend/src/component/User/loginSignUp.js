@@ -44,7 +44,8 @@ const LoginSignUp = () => {
             }
             console.log(loginEmail,loginPassword)
             const response = await axios.post("/api/v1/login", post, config)
-            const {success,message} = response.data
+            const {success,message,user} = response.data
+            localStorage.setItem("user", JSON.stringify(user))
 
             if(success){
                 console.log('Login Successful')
@@ -76,8 +77,8 @@ const LoginSignUp = () => {
 
         try{
             const response = await axios.post("/api/v1/register",myForm,config)
-            const {success,message} = response.data
-
+            const {success,message,user} = response.data
+            localStorage.setItem("user", JSON.stringify(user))
             if(success){
                 console.log('Registration Successful')
                 history("/account")
@@ -111,34 +112,38 @@ const LoginSignUp = () => {
         }
     }
 
-    const redirect = window.location.href ? window.location.href.split("=")[1] :"/account"
-    console.log("checkRedirect",redirect)
+    // const redirect = window.location.href ? window.location.href.split("=")[1] :"/account"
+    // console.log("checkRedirect",redirect)
 
-    useEffect(()=>{
-        console.log("auth", authentication)
-        const checkLogin=async()=>{
-            try{
-              await axios.get("/api/v1/me").then((e)=>{
-                console.log("dateResponse ",e)
-                setUser(e.data.user) 
-                const user = e.data.user
-                localStorage.setItem("user", JSON.stringify(user))
-                setAuthentication(true)
-              }).catch((err)=>{
-                console.log("Checking Error in loginSignUp.js")
-                console.log("errorHere",err)
-              }) 
+    // useEffect(()=>{
+    //     console.log("auth", authentication)
+    //     const checkLogin=async()=>{
+    //         try{
+    //           await axios.get("/api/v1/me").then((e)=>{
+    //             console.log("dateResponse ",e)
+    //             if(e.data.success){
+    //                 setUser(e.data.user) 
+    //                 const user = e.data.user
+    //                 localStorage.setItem("user", JSON.stringify(user))
+    //                 setAuthentication(true)
+    //                 history(`/${redirect}`)
+    //             }
+    //             else{
+    //                 console.log("Login Failed")
+    //             }
+
+    //           }).catch((err)=>{
+    //             console.log("Checking Error in loginSignUp.js")
+    //             console.log("errorHere",err)
+    //           }) 
               
-            }
-            catch(error){
-              console.log("errorMessage",error.message)
-            }
-          }
-          checkLogin()
-        if(authentication){
-            history(`/${redirect}`)
-        }
-    },[])
+    //         }
+    //         catch(error){
+    //           console.log("errorMessage",error.message)
+    //         }
+    //       }
+    //       checkLogin()
+    // },[])
 
     const switchTabs = (e,tab)=>{
         if(tab==="login"){

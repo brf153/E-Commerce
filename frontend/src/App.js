@@ -86,11 +86,18 @@ function App() {
     const checkLogin=async()=>{
       try{
         await axios.get("/api/v1/me").then((e)=>{
-          console.log("dateResponse ",e)
-          setUser(e.data.user) 
-          const user = e.data.user
-          localStorage.setItem("user", JSON.stringify(user))
-          setAuthentication(true)
+          
+          console.log("dateResponse ",e.data.success)
+          if(e.data.success){
+            setUser(e.data.user) 
+            const user = e.data.user
+            localStorage.setItem("user", JSON.stringify(user))
+            setAuthentication(true)
+          }
+          else{
+            setAuthentication(false)
+          }
+          
         }).catch((err)=>{
           console.log("Checking Error")
           console.log("errorHere",err)
